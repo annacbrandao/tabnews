@@ -7,14 +7,21 @@ import { Head } from 'pages/interface';
 export default function DefaultLayout({ children, containerWidth = 'large', metadata }) {
   const router = useRouter();
 
+  const KEYBOARD_SHORTCUTS = {
+    r: { path: '/', description: 'Ir para Relevantes' },
+    e: { path: '/recentes/pagina/1', description: 'Ir para Recentes' },
+  };
+
   const handleKeyPress = useCallback(
     (event) => {
       const isInputField =
         event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.isContentEditable;
 
-      if (!isInputField && event.key === 'r') {
+      const shortcut = KEYBOARD_SHORTCUTS[event.key];
+
+      if (!isInputField && shortcut) {
         event.preventDefault();
-        router.push('/');
+        router.push(shortcut.path);
       }
     },
     [router],

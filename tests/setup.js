@@ -1,25 +1,8 @@
-// Só define mocks quando está em jsdom
+// Mock only in jsdom environment.
 if (typeof document !== 'undefined') {
   global.CSS = {
-    supports: vi.fn().mockImplementation(() => false),
+    supports: vi.fn().mockImplementation(() => {
+      return false;
+    }),
   };
-
-  // matchMedia
-  vi.spyOn(window, 'matchMedia').mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-  }));
-
-  // IntersectionObserver
-  class IntersectionObserver {
-    constructor() {}
-    observe() {}
-    disconnect() {}
-    unobserve() {}
-  }
-
-  global.IntersectionObserver = IntersectionObserver;
 }
